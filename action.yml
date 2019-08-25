@@ -1,0 +1,5 @@
+name: Jest Check Action
+description: A GitHub action to add GitHub check annotations for test failures
+runs:
+  using: "node12"
+  main: "dist/index.js"
