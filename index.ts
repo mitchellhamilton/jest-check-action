@@ -1,35 +1,8 @@
 import * as core from "@actions/core";
-import { exec } from "@actions/exec";
 import * as github from "@actions/github";
 import { ChecksUpdateParamsOutputAnnotations } from "@octokit/rest";
 import fs from "fs-extra";
 import path from "path";
-
-async function execWithOutput(
-  command: string,
-  args?: string[],
-  options?: { ignoreReturnCode?: boolean }
-) {
-  let myOutput = "";
-  let myError = "";
-
-  return {
-    code: await exec(command, args, {
-      listeners: {
-        stdout: (data: Buffer) => {
-          myOutput += data.toString();
-        },
-        stderr: (data: Buffer) => {
-          myError += data.toString();
-        }
-      },
-
-      ...options
-    }),
-    stdout: myOutput,
-    stderr: myError
-  };
-}
 
 (async () => {
   let githubToken = process.env.GITHUB_TOKEN;
