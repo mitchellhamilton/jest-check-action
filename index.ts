@@ -57,11 +57,7 @@ async function execWithOutput(
           start_line: assertionResult.location.line,
           end_line: assertionResult.location.line,
           annotation_level: "failure",
-          message: `**${
-            assertionResult.title
-          }**\n${assertionResult.failureMessages
-            .map((x: string) => `\`\`\`\n${x}\n\`\`\``)
-            .join("\n")}`
+          message: assertionResult.failureMessages.join("\n\n\n")
         });
       }
     }
@@ -70,7 +66,7 @@ async function execWithOutput(
   if (!assertionsGroups[0].length) {
     let output = await octokit.checks.create({
       ...github.context.repo,
-      name: "Jest",
+      name: github.context.workflow,
       status: "completed",
       conclusion: "success",
       head_sha: github.context.sha
@@ -78,7 +74,7 @@ async function execWithOutput(
   } else {
     let output = await octokit.checks.create({
       ...github.context.repo,
-      name: "Jest",
+      name: github.context.workflow,
       status: "completed",
       conclusion: "failure",
       head_sha: github.context.sha,
